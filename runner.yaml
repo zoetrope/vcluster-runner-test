@@ -7,3 +7,12 @@ spec:
   repository: zoetrope/vcluster-runner-test
   image: ghcr.io/zoetrope/actions-runner:v0.1.0
   env: []
+  volumeMounts:
+  - mountPath: /etc/kubernetes
+    name: kubeconfig
+    readOnly: true
+  volumes:
+  - name: kubeconfig
+    secret:
+      defaultMode: 420
+      secretName: vc-test-cluster
