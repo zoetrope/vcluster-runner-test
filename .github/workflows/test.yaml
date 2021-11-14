@@ -13,5 +13,5 @@ jobs:
         uses: actions/checkout@v2
       - name: Deploy Pod
         run: |
-          kubectl --kubeconfig=/etc/kubernetes/config apply -f ./pod.yaml
-          kubectl --kubeconfig=/etc/kubernetes/config wait --for=condition=ready pod sample
+          ARGOCD_PASSWORD=$(kubectl get secrets -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
+          argocd login argocd-server-x-argocd-x-test-cluster --insecure --username admin --password ${ARGOCD_PASSWORD}
