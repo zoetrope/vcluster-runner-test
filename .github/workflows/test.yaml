@@ -11,7 +11,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Deploy Pod
+      - name: Deploy Application
         run: |
           ARGOCD_PASSWORD=$(kubectl get secrets -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
           argocd login argocd-server-x-argocd-x-test-cluster --insecure --username admin --password ${ARGOCD_PASSWORD}
+          argocd app create test --repo https://github.com/zoetrope/vcluster-runner-test.git --path manifests --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse --revision argocd
+          argocd app sync test
