@@ -5,14 +5,16 @@ metadata:
   namespace: default
 spec:
   repository: zoetrope/vcluster-runner-test
-  image: ghcr.io/zoetrope/actions-runner:v0.1.0
-  env: []
+  image: ghcr.io/zoetrope/actions-runner:v0.2.0
+  env:
+    - name: KUBECONFIG
+      value: "/etc/kubernetes/config"
   volumeMounts:
-  - mountPath: /etc/kubernetes
-    name: kubeconfig
-    readOnly: true
+    - mountPath: /etc/kubernetes
+      name: kubeconfig
+      readOnly: true
   volumes:
-  - name: kubeconfig
-    secret:
-      defaultMode: 420
-      secretName: vc-test-cluster
+    - name: kubeconfig
+      secret:
+        defaultMode: 420
+        secretName: vc-test-cluster
